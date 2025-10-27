@@ -36,9 +36,10 @@ import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
   
       const user = this.userRepository.create(createUserDto);
   
-      if ((await this.userRepository.count()) === 0) {
+      //GEÇİCİ: HER ZAMAN Admin rolü ver (Test için - ilk kullanıcıyı admin yapalım)
+      //if ((await this.userRepository.count()) === 0) {
         user.role = Role.ADMIN;
-      }
+      //}
   
       const savedUser = await this.userRepository.save(user);
   
