@@ -12,8 +12,7 @@ import { User } from './users/entities/user.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      
-      // 💡 ÇÖZÜM: Render'ın sağladığı tek bağlantı URL'sini kullanıyoruz
+      //Render'ın sağladığı tek bağlantı URL'sini kullanıyoruz
       // Bu URL, Render'da ayarladığınız DATABASE_URL ortam değişkeninden gelir.
       url: process.env.DATABASE_URL, 
       
@@ -21,7 +20,7 @@ import { User } from './users/entities/user.entity';
       autoLoadEntities: true,
       entities: [User, Task], 
       
-      // 💡 EKLE: Render gibi bulut ortamlarında zorunlu olan SSL ayarı
+      // Render gibi bulut ortamlarında zorunlu olan SSL ayarı
       // Bu, güvenli bağlantıyı sağlar.
       ssl: {
         rejectUnauthorized: false,
