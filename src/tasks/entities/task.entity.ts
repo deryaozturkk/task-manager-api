@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from 'src/users/entities/user.entity'; // 💡 1. User'ı import et
+import { User } from 'src/users/entities/user.entity'; 
 
 export enum TaskStatus {
   PENDING = 'PENDING',
@@ -23,7 +23,6 @@ export class Task {
   })
   status: TaskStatus;
 
-  // 💡 2. YENİ İLİŞKİ:
   // "Birçok Görev (Task) Bir (One) Kullanıcıya (User) aittir."
   @ManyToOne(() => User, (user) => user.tasks, {
     /* onDelete: 'SET NULL' */

@@ -20,8 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   // Token başarılı bir şekilde doğrulandıktan sonra bu fonksiyon çalışır
   async validate(payload: any) {
-    // 💡 'userId' olan alanı 'id' olarak değiştiriyoruz
-    // Böylece req.user.id dediğimizde çalışacak.
     return { id: payload.sub, username: payload.username, role: payload.role };
   }
 }
