@@ -8,14 +8,18 @@ import {
   Delete,
   ParseUUIDPipe, 
   UseGuards, 
+  HttpCode,
+  HttpStatus,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport'; 
-import { RolesGuard } from '../auth/roles/roles.guard'; 
-import { Roles } from '../auth/roles.decorator'; 
+import { RolesGuard } from 'src/auth/roles/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 import { Role } from './enums/role.enum'; 
+import { UpdateUserRoleDto } from './dto/update-user-role.dto';
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller('users')
@@ -53,5 +57,17 @@ export class UsersController {
   @Roles(Role.ADMIN)
   remove(@Param('id', ParseUUIDPipe) id: string) { 
     return this.usersService.remove(id);
+  }
+
+  @Patch(':id/role') 
+  @Roles(Role.ADMIN)
+  @HttpCode(HttpStatus.OK) // Başarılı olunca 200 OK döndürsün
+  async updateRole(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserRoleDto: UpdateUserRoleDto,
+    @Request() req: any, // İstek yapan admini almak için (kendini değiştiremesin diye)
+  ) {
+    // Servis metodunu çağırıyoruz
+    return this.usersService.updateRole(id, updateUserRoleDto, req.user); 
   }
 }

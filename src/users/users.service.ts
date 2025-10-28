@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { UpdateUserRoleDto } from './dto/update-user-role.dto';
+import { Role } from './enums/role.enum'; // Role enum'unu import etmeyi unutmayın
 
 @Injectable()
 export class UsersService {
@@ -37,4 +39,23 @@ export class UsersService {
   remove(id: string) {
     return `This action removes a #${id} user`;
   }
+
+  // --- ROL GÜNCELLEME METODU ---
+  async updateRole(id: string, updateUserRoleDto: UpdateUserRoleDto, reqUser: User): Promise<Omit<User, 'password' | 'hashPassword'>> { // 💡 Dönüş tipini güncelledik
+    const userToUpdate = await this.findOne(id);
+    if (!userToUpdate) {
+      throw new NotFoundException(`User with ID "${id}" not found`);
+    }
+
+    if (userToUpdate.id === reqUser.id) {
+       throw new ForbiddenException('Admins cannot change their own role.');
+    }
+
+    userToUpdate.role = updateUserRoleDto.role;
+    const savedUser = await this.userRepository.save(userToUpdate);
+
+    const { password, hashPassword, ...result } = savedUser; 
+    return result; // Şifre ve hashPassword metodu olmayan nesneyi döndür
+  }
 }
+
