@@ -1,6 +1,8 @@
 # 🚀 Task Manager - API (Backend)
 
-Bu proje, bir Full-Stack web geliştirme mülakatı için Angular (Frontend) ile eşleştirilmiş, Rol Tabanlı Yetkilendirme (RBAC) özellikli bir REST API örneğidir.
+**[➡️ Canlı Uygulamayı Gör (Netlify)](https://task-managerui.netlify.app)**
+
+Bu proje, Angular (Frontend) ile eşleştirilmiş, Rol Tabanlı Yetkilendirme (RBAC) özellikli, güvenli bir REST API örneğidir.
 
 ## 🛠️ Kullanılan Teknolojiler
 
